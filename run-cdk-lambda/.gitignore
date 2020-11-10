@@ -11,3 +11,4 @@ target
 .cdk.staging
 cdk.out
 
+dependency-reduced-pom.xml

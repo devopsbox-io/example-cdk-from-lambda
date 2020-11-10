@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+PROJECT_DIR=$(realpath "${SCRIPT_DIR}/..")
+DOCKER_IMAGE_TAG=aws-cdk-bin:latest
+TMP_BIN_DIR="${PROJECT_DIR}/tmp"
+
+mkdir -p ${TMP_BIN_DIR}
+
+mvn package -f "${PROJECT_DIR}/run-cdk-lambda/pom.xml"
+cp ${PROJECT_DIR}/run-cdk-lambda/target/run-cdk-lambda-*.jar ${TMP_BIN_DIR}/run-cdk-lambda.jar
+
+docker build -t ${DOCKER_IMAGE_TAG} ${PROJECT_DIR}/docker/cdk
+
+rm -f ${TMP_BIN_DIR}/docker-cid
+docker create --cidfile ${TMP_BIN_DIR}/docker-cid ${DOCKER_IMAGE_TAG}
+CID=$(cat ${TMP_BIN_DIR}/docker-cid)
+
+trap "docker rm ${CID}" EXIT
+
+docker cp ${CID}:/opt/node.zip ${TMP_BIN_DIR}/node.zip
+docker cp ${CID}:/opt/aws-cdk.zip ${TMP_BIN_DIR}/aws-cdk.zip

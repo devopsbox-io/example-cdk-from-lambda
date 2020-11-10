@@ -1,18 +1,34 @@
-# Welcome to your CDK Java project!
+# Prerequisites
 
-This is a blank project for Java development with CDK.
+- AWS CDK (tested with 1.71.0)
+- Java JDK (tested with openjdk 11.0.9)
+- NodeJS (required by AWS CDK, tested with v12.18.3)
+- Docker (tested with 18.09.5)
+- Maven (tested with 3.6.3)
+- AWS CLI (only for testing, tested with 1.18.57)
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+Should work with different versions of some prerequisites.
 
-It is a [Maven](https://maven.apache.org/) based project, so you can open this project with any Maven compatible Java IDE to build and run tests.
+# Running
 
-## Useful commands
+```
+cdk bootstrap
+cdk deploy --require-approval never
+```
 
- * `mvn package`     compile and run tests
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+# Testing
 
-Enjoy!
+```
+aws s3 ls
+```
+should not return any bucket with prefix "runcdklambdastack-createdbycdkfromlambda"
+
+Run:
+```
+aws lambda invoke --function-name run-cdk tmp/lambda-out
+```
+to start CDK from lambda and create the bucket. The first run can take about 1 minute to complete. After that
+```
+aws s3 ls
+```
+should return a bucket created by CDK (with "runcdklambdastack-createdbycdkfromlambda" prefix)
