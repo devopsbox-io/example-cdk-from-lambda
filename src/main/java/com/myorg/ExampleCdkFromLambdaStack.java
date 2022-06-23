@@ -1,20 +1,23 @@
 package com.myorg;
 
-import software.amazon.awscdk.core.Construct;
-import software.amazon.awscdk.core.Duration;
-import software.amazon.awscdk.core.Stack;
-import software.amazon.awscdk.core.StackProps;
+
+import software.amazon.awscdk.Duration;
+import software.amazon.awscdk.Stack;
+import software.amazon.awscdk.StackProps;
 import software.amazon.awscdk.services.iam.PolicyStatement;
 import software.amazon.awscdk.services.iam.PolicyStatementProps;
 import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.FunctionProps;
 import software.amazon.awscdk.services.lambda.LayerVersion;
-import software.amazon.awscdk.services.lambda.Runtime;
+import software.constructs.Construct;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
+
+import static software.amazon.awscdk.services.lambda.Runtime.JAVA_11;
 
 
 public class ExampleCdkFromLambdaStack extends Stack {
@@ -32,7 +35,7 @@ public class ExampleCdkFromLambdaStack extends Stack {
         String tmpBinDir = getTmpBinDir();
 
         PolicyStatement cloudformationPolicy = new PolicyStatement(PolicyStatementProps.builder()
-                .resources(Arrays.asList(
+                .resources(Collections.singletonList(
                         "*"
                 ))
                 .actions(Arrays.asList(
@@ -49,10 +52,10 @@ public class ExampleCdkFromLambdaStack extends Stack {
 
         // we can restrict this policy to certain buckets only
         PolicyStatement s3Policy = new PolicyStatement(PolicyStatementProps.builder()
-                .resources(Arrays.asList(
+                .resources(Collections.singletonList(
                         "*"
                 ))
-                .actions(Arrays.asList(
+                .actions(Collections.singletonList(
                         "s3:*"
                 ))
                 .build());
@@ -71,8 +74,8 @@ public class ExampleCdkFromLambdaStack extends Stack {
                 )
                 .build();
 
-        Function lambda = new Function(this, "RunCdk", FunctionProps.builder()
-                .runtime(Runtime.JAVA_11)
+        new Function(this, "RunCdk", FunctionProps.builder()
+                .runtime(JAVA_11)
                 .handler("com.myorg.CdkWrapper")
                 .code(Code.fromAsset(tmpBinDir + "/run-cdk-lambda.jar"))
                 .layers(Arrays.asList(
