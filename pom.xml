@@ -9,7 +9,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cdk.version>1.71.0</cdk.version>
+        <cdk.version>2.26.0</cdk.version>
     </properties>
 
     <build>
@@ -38,12 +38,7 @@
     <dependencies>
         <dependency>
             <groupId>software.amazon.awscdk</groupId>
-            <artifactId>core</artifactId>
-            <version>${cdk.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awscdk</groupId>
-            <artifactId>lambda</artifactId>
+            <artifactId>aws-cdk-lib</artifactId>
             <version>${cdk.version}</version>
         </dependency>
     </dependencies>

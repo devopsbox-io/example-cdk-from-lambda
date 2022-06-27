@@ -4,7 +4,7 @@ RUN apt-get update && \
     apt-get install -y zip && \
     rm -rf /var/lib/apt/lists/*
 
-ENV AWS_CDK_VERSION=1.71.0
+ENV AWS_CDK_VERSION=2.26.0
 RUN mkdir -p /nodejs && \
     npm config set prefix /nodejs/bin && \
     npm install -g aws-cdk@${AWS_CDK_VERSION}
