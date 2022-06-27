@@ -1,11 +1,11 @@
 # Prerequisites
 
-- AWS CDK (tested with 1.71.0)
-- Java JDK (tested with openjdk 11.0.9)
-- NodeJS (required by AWS CDK, tested with v12.18.3)
-- Docker (tested with 18.09.5)
+- AWS CDK (tested with 2.29.1)
+- Java JDK (tested with openjdk 17.0.3)
+- NodeJS (required by AWS CDK, tested with v16.15.1)
+- Docker (tested with 20.10.17)
 - Maven (tested with 3.6.3)
-- AWS CLI (only for testing, tested with 1.18.57)
+- AWS CLI (only for testing, tested with 2.4.6)
 
 Should work with different versions of some prerequisites.
 
